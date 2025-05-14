@@ -1,0 +1,141 @@
+using System;
+
+public abstract class Vehicle
+{
+    public string Model { get; protected set; }
+    public int CurrentSpeed { get; protected set; }
+    public int MaxSpeed { get; protected set; }
+
+    public Vehicle(string model, int maxSpeed)
+    {
+        Model = model;
+        MaxSpeed = maxSpeed;
+        CurrentSpeed = 0;
+    }
+
+    public abstract void Move();
+
+    public virtual void Stop()
+    {
+        Console.WriteLine($"{Model}: Транспортное средство остановлено.");
+    }
+}
+
+public class Car : Vehicle
+{
+    public int PassengerSeats { get; private set; }
+
+    public Car(string model, int maxSpeed, int passengerSeats) : base(model, maxSpeed)
+    {
+        PassengerSeats = passengerSeats;
+    }
+
+    public override void Move()
+    {
+        if (CurrentSpeed < MaxSpeed)
+        {
+            CurrentSpeed++;
+            Console.WriteLine($"{Model}: Текущая скорость — {CurrentSpeed} км/ч");
+        }
+        else
+        {
+            Console.WriteLine($"{Model}: Максимальная скорость достигнута.");
+        }
+    }
+
+    public void ShowPassengerSeats()
+    {
+        Console.WriteLine($"{Model}: Пассажирские места — {PassengerSeats}");
+    }
+}
+
+public class Truck : Vehicle
+{
+    public double LoadCapacity { get; private set; }
+
+    public Truck(string model, int maxSpeed, double loadCapacity) : base(model, maxSpeed)
+    {
+        LoadCapacity = loadCapacity;
+    }
+
+    public override void Move()
+    {
+        if (CurrentSpeed < MaxSpeed)
+        {
+            CurrentSpeed++;
+            Console.WriteLine($"{Model}: Текущая скорость — {CurrentSpeed} км/ч");
+        }
+        else
+        {
+            Console.WriteLine($"{Model}: Максимальная скорость достигнута.");
+        }
+    }
+
+    public void LoadCargo(double cargoWeight)
+    {
+        if (cargoWeight <= LoadCapacity)
+        {
+            Console.WriteLine($"{Model}: ГРУЗ загружен успешно. Вес груза — {cargoWeight} кг.");
+        }
+        else
+        {
+            Console.WriteLine($"{Model}: Ошибка загрузки! Превышен допустимый вес груза.");
+        }
+    }
+}
+
+public class Bicycle : Vehicle
+{
+    public bool HasBell { get; private set; }
+
+    public Bicycle(string model, int maxSpeed, bool hasBell) : base(model, maxSpeed)
+    {
+        HasBell = hasBell;
+    }
+
+    public override void Move()
+    {
+        if (CurrentSpeed < MaxSpeed)
+        {
+            CurrentSpeed++;
+            Console.WriteLine($"{Model}: Текущая скорость — {CurrentSpeed} км/ч");
+        }
+        else
+        {
+            Console.WriteLine($"{Model}: Максимальная скорость достигнута.");
+        }
+    }
+
+    public void RingBell()
+    {
+        if (HasBell)
+        {
+            Console.WriteLine($"{Model}: Динь-Дон!");
+        }
+        else
+        {
+            Console.WriteLine($"{Model}: Нет звонка.");
+        }
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        var car = new Car("Lamborghini", 200, 5);
+        car.ShowPassengerSeats();
+        car.Move();
+        car.Stop();
+
+        var truck = new Truck("Batmobile", 120, 20000);
+        truck.LoadCargo(150);
+        truck.Move();
+        truck.Stop();
+
+        var bike = new Bicycle("Trike of Pile", 2, true);
+        bike.RingBell();
+        bike.Move();
+        bike.Stop();
+    }
+}
