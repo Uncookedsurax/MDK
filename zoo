@@ -1,0 +1,180 @@
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Security.Cryptography.X509Certificates;
+using System.Text;
+
+
+class Zoo
+{
+
+
+
+    static void Main()
+    {
+        Anim anim = new Anim()
+        {
+            Id = 1,
+            Name = "stive",
+            Species = "Soul",
+            Age = 1,
+            IsFeed = true,
+
+        };
+        Anim anim1 = new Anim()
+        {
+            Id = 2,
+            Name = "Gleb",
+            Species = "neandertalis",
+            Age = 4,
+            IsFeed = true,
+        };
+        Anim anim2 = new Anim();
+        anim2.Id = 3;
+        anim2.Name = "Rosil";
+        anim2.Age = 3;
+        anim2.Species = "Monkey";
+        anim2.IsFeed = true;
+       
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.Append("1. AddAnimals");
+        stringBuilder.AppendLine();
+        stringBuilder.Append("2. List of animals");
+        stringBuilder.AppendLine();
+        stringBuilder.Append("3.Animal with id");
+        stringBuilder.AppendLine();
+
+
+
+
+        ZooPark zooPark = new ZooPark();
+        zooPark.AddAnim(anim);
+        zooPark.AddAnim(anim1); 
+        zooPark.AddAnim(anim2);
+
+        Console.WriteLine(stringBuilder.ToString());
+        if (!int.TryParse(Console.ReadLine(), out int menuPosition))
+        {
+            Console.WriteLine("Please enter a valid number");
+            return;
+        }
+
+        switch (menuPosition)
+        {
+            case 1:zooPark.AddAnim(anim2); break;
+            case 2: zooPark.ListAllAnimals();break;
+            case 3:
+                Console.WriteLine("enter enimal id");
+                int id = int.Parse(Console.ReadLine()!);
+                zooPark.GetAnimalByID(id);
+                break;
+        }
+    }
+    class Anim
+    {
+        public int Id;
+        public string Name;
+            public string Species;
+        public int Age;
+        public bool IsFeed;
+    }
+
+
+    class ZooPark
+    {
+        List<Anim> anims = new List<Anim>();
+
+        public string Name;
+
+        public void AddAnim(Anim anim)
+
+        {
+            anims.Add(anim);
+        }
+        public void FeedAnimal(int AnimId)
+        {
+
+
+
+            foreach (Anim anim in anims)
+            {
+                if (anim.Id == AnimId)
+                {
+                    if (!anim.IsFeed)
+                    {
+                        anim.IsFeed = true;
+                        Console.WriteLine($" {anim.Name} (Animal_ID{AnimId}: Is Feed  ");
+                    }
+                    else
+                    {
+                        Console.WriteLine($" {anim.Name} (Animal_ID{AnimId}: Need Feed  ");
+                        string? Feed = Console.ReadLine();
+                        if (Feed == "yes")
+                        {
+                            Console.WriteLine($" {anim.Name} (Animal_ID{AnimId}: Is Feed. You very good people  ");
+                        }
+
+
+                    }
+                }
+                else
+                {
+                    Console.WriteLine(" ANIMAL NOT EXICT ");
+                }
+            }
+        }
+
+        public void UpdateInfo(int AnimId, Anim updatedAnimal)
+        {
+            foreach (Anim anim in anims)
+            {
+                if (anim.Id == AnimId)
+                {
+                    anim.Name = updatedAnimal.Name;
+                    anim.Species = updatedAnimal.Species;
+                    anim.Age = updatedAnimal.Age;
+                    anim.IsFeed = updatedAnimal.IsFeed;
+                }
+                else
+                {
+                    Console.WriteLine("  ANIMAL NOT EXICT ");
+                }
+
+            }
+        }
+        public void ListAllAnimals()
+        {
+            foreach (Anim anim in anims)
+            {
+                if (anims != null)
+                {
+                    Console.WriteLine("enter enimal name: " + anim.Name + "\n" + "enimal Species: " + anim.Species + "\n" + animal's age: " + anim.Age + "\n" + animal's feeding: " + anim.IsFeed + "\n" + "\n");
+}
+                else
+                {
+                    Console.WriteLine("Not exict");
+                }
+            }
+        }
+        public void GetAnimalByID(int animid)
+        {
+
+
+            var anim = anims.FirstOrDefault(x => x.Id == animid);
+
+                if (anim != null)
+                {
+                    Console.WriteLine("animal's name: " + anim.Name + "\n" + "animal's Species: " + anim.Species + "\n" + "animal's age: " + anim.Age);
+                    return;
+                }
+                else
+                {
+                    Console.WriteLine(" animal doese not exist ");
+                    return;
+                }
+        }
+
+    }
+     
+}
+
